@@ -23,12 +23,12 @@ Take some minutes to understand, in broad terms, how the API works. If you do no
 # Initialize an empty spreadsheet.
 spreadsheet = SpreadSheet()
 # Set two cells.
-spreadsheet.set('A1', '=B1')
-spreadsheet.set('B1', '42')
-# Get the value of a given cell (e.g., the value of 'A1' is '=B1').
-value = spreadsheet.get('A1')
-# Evaluate a given cell (e.g., the evaluation of 'A1' is '42').
-result = spreadsheet.evaluate('A1')
+spreadsheet.set("A1", "=B1")
+spreadsheet.set("B1", "42")
+# Get the value of a given cell (e.g., the value of "A1" is "=B1").
+value = spreadsheet.get("A1")
+# Evaluate a given cell (e.g., the evaluation of "A1" is "42").
+result = spreadsheet.evaluate("A1")
 ```
 
 See the provided source files to improve your understanding of the API before starting to implement the user stories. 
