@@ -92,12 +92,15 @@ The spreadsheet performs integer addition, subtraction, multiplication, division
 
 ### User Story 6 -- Formulas with Arithmetic Operators and References
 A formula can contain both arithmetic operators and references to other cells. In such a case, the evaluation is recursive, namely: the referenced cells are evaluated and the results of these evaluations are used by the formula.
+Note that there could be cases in which (1) the value contained in a cell referenced by a formula is incorrect (in this case, the evaluation returns the string "#Error") or (2) the formula contains circular references (in this case, the evaluation returns the string "#Circular").
 
 **Requirement:**
 * Implement `SpreadSheet.evaluate(self, cell: str) -> int | str` to evaluate the content of a cell containing a formula with arithmetic operators and references.
 
-**Example:**
+**Examples:**
 * If the cell "A1" contains "=1+B1" and the cell "B1" contains "3", the result of the evaluation of "A1" is 4.
+* If the cell "A1" contains "=1+B1" and the cell "B1" contains "3.1", the result of the evaluation of "A1" is "#Error".
+* If the cell "A1" contains "=1+B1" and the cell "B1" contains "=A1", the result of the evaluation of "A1" is "#Circular".
 
 ### User Story 7 -- Formulas with String Concatenations
 The spreadsheet performs string concatenations when the concatenation operator (&) is present in a formula. A string concatenation cannot be performed when the strings are wrongly formatted. In this case, the evaluation returns the string "#Error".
@@ -111,10 +114,35 @@ The spreadsheet performs string concatenations when the concatenation operator (
 
 ### User Story 8 -- Formulas with String Concatenations and References
 A formula can contain both string concatenations and references to other cells. In such a case, the evaluation is recursive, namely: the referenced cells are evaluated and the results of these evaluations are used by the formula.
+Note that there could be cases in which (1) the value contained in a cell referenced by a formula is incorrect (in this case, the evaluation returns the string "#Error") or (2) the formula contains circular references (in this case, the evaluation returns the string "#Circular").
 
 **Requirement:**
 * Implement `SpreadSheet.evaluate(self, cell: str) -> int | str` to evaluate the content of a cell containing a formula with string concatenations and references.
 
 **Example:**
 * If the cell "A1" contains "='Hello'&B1" and the cell "B1" contains "' World'", the result of the evaluation of "A1" is "Hello World".
+* If the cell "A1" contains "='Hello'&B1" and the cell "B1" contains " World'", the result of the evaluation of "A1" is "#Error".
+* If the cell "A1" contains "='Hello'&B1" and the cell "B1" contains "=A1", the result of the evaluation of "A1" is "#Circular".
 
+### User Story 9 -- Formulas with Parentheses
+A formula can contain parentheses. When this happens, the part within the parentheses is evaluated first. If the parentheses in a formula are unbalanced, it returns the string "#Error". Note that a formula can contain arbitrary whitespaces, which are ignored.
+
+**Requirement:**
+* Implement `SpreadSheet.evaluate(self, cell: str) -> int | str` to evaluate the content of a cell containing a formula with parentheses.
+
+**Examples:**
+* If the cell "A1" contains "=2*(1+2)", the result of this evaluation is 6.
+* If the cell "A1" contains "= 2 * (1 + 2)", the result of this evaluation is 6.
+
+### User Story 10 -- Formulas with Parentheses and References
+A formula can contain parentheses and references. In such a case, the evaluation is recursive, namely: the referenced cells are evaluated and the results of these evaluations are used by the formula.
+Note that there could be cases in which (1) the value contained in a cell referenced by a formula is incorrect (in this case, the evaluation returns the string "#Error") or (2) the formula contains circular references (in this case, the evaluation returns the string "#Circular"). Moreover, a formula can contain arbitrary whitespaces, which are ignored.
+
+**Requirement:**
+* Implement `SpreadSheet.evaluate(self, cell: str) -> int | str` to evaluate the content of a cell containing a formula with parentheses and references. 
+
+**Examples:**
+* If the cell "A1" contains "=2*(1+B1)" and the cell "B1" contains "2", the result of this evaluation is 6.
+* If the cell "A1" contains "= 2 * (1 + B1)" and the cell "B1" contains "2", the result of this evaluation is 6.
+* If the cell "A1" contains "=2*(1+B1)" and the cell "B1" contains "2.1", the result of this evaluation is "#Error".
+* If the cell "A1" contains "=2*(1+B1)" and the cell "B1" contains "=A1", the result of this evaluation is "#Circular".
