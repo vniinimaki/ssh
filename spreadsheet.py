@@ -10,5 +10,5 @@ class SpreadSheet:
     def get(self, cell: str) -> str:
         return self._cells.get(cell, '')
 
-    def evaluate(self, cell: str) -> str:
+    def evaluate(self, cell: str) -> int | str:
         pass
