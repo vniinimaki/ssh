@@ -68,7 +68,7 @@ The spreadsheet evaluates simple formulas (i.e., formulas without operators or c
 * If the cell "A1" contains "='Apple", the result of its evaluation is "#Error".
 
 ### User Story 4 -- Simple Formulas with References
-A formula can contain a reference to a cell, following Excel's convention (e.g., "A5"). In such a case, the evaluation is recursive, namely: the referenced cell is evaluated and the result is returned by the formula. When the value contained in a cell referenced by a formula is incorrect, the evaluation returns the string "#Error". There could be cases in which the formula contains circular references (e.g., "A5" contains a formula referencing "A1", and "A1" contains a formula referencing "A5"). In this case, the evaluation returns the string "#Circular".
+A formula can contain a reference to a cell, following Excel's convention (e.g., "A5"). In such a case, the evaluation is recursive, namely: the referenced cell is evaluated and the result of this evaluation is returned by the formula. When the value contained in a cell referenced by a formula is incorrect, the evaluation returns the string "#Error". There could be cases in which the formula contains circular references (e.g., "A5" contains a formula referencing "A1", and "A1" contains a formula referencing "A5"). In this case, the evaluation returns the string "#Circular".
 
 **Requirement:**
 * Implement `SpreadSheet.evaluate(self, cell: str) -> int | str` to evaluate the content of a cell containing a simple formula with a reference to a cell.
@@ -89,3 +89,32 @@ The spreadsheet performs integer addition, subtraction, multiplication, division
 * If the cell "A1" contains "=1+3.5", the result of its evaluation is "#Error".
 * If the cell "A1" contains "=1/0", the result of its evaluation is "#Error".
 * If the cell "A1" contains "=1+3*2", the result of its evaluation is 9.
+
+### User Story 6 -- Formulas with Arithmetic Operators and References
+A formula can contain both arithmetic operators and references to other cells. In such a case, the evaluation is recursive, namely: the referenced cells are evaluated and the results of these evaluations are used by the formula.
+
+**Requirement:**
+* Implement `SpreadSheet.evaluate(self, cell: str) -> int | str` to evaluate the content of a cell containing a formula with arithmetic operators and references.
+
+**Example:**
+* If the cell "A1" contains "=1+B1" and the cell "B1" contains "3", the result of the evaluation of "A1" is 4.
+
+### User Story 7 -- Formulas with String Concatenations
+The spreadsheet performs string concatenations when the concatenation operator (&) is present in a formula. A string concatenation cannot be performed when the strings are wrongly formatted. In this case, the evaluation returns the string "#Error".
+
+**Requirement:**
+* Implement `SpreadSheet.evaluate(self, cell: str) -> int | str` to evaluate the content of a cell containing a formula with string concatenations.
+
+**Examples:**
+* If the cell "A1" contains "='Hello'&' World'", the result of its evaluation is "Hello World".
+* If the cell "A1" contains "='Hello'&' World", the result of its evaluation is "#Error".
+
+### User Story 8 -- Formulas with String Concatenations and References
+A formula can contain both string concatenations and references to other cells. In such a case, the evaluation is recursive, namely: the referenced cells are evaluated and the results of these evaluations are used by the formula.
+
+**Requirement:**
+* Implement `SpreadSheet.evaluate(self, cell: str) -> int | str` to evaluate the content of a cell containing a formula with string concatenations and references.
+
+**Example:**
+* If the cell "A1" contains "='Hello'&B1" and the cell "B1" contains "' World'", the result of the evaluation of "A1" is "Hello World".
+
