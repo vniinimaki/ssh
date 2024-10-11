@@ -67,5 +67,14 @@ The spreadsheet evaluates simple formulas (i.e., formulas without operators or c
 * If the cell "A1" contains "=1", the result of its evaluation is 1.
 * If the cell "A1" contains "='Apple", the result of its evaluation is "#Error".
 
+### User Story 5 -- Simple Formulas with References
+A formula can contain a reference to a cell, following Excel's convention (e.g., "A5"). In such a case, the evaluation is recursive, namely: the referenced cell is evaluated and the result is returned by the formula. When the value contained in a cell referenced by a formula is incorrect, the evaluation returns the string "#Error". There could be cases in which the formula contains circular references (e.g., "A5" contains a formula referencing "A1", and "A1" contains a formula referencing "A5"). In this case, the evaluation returns the string "#Circular".
 
+**Requirement:**
+* Implement `SpreadSheet.evaluate(self, cell: str) -> int | str` to evaluate the content of a cell containing a simple formula with a reference to a cell.
+
+**Examples:**
+* If the cell "A1" contains "=B1" and "B1" contains "42", the result of the evaluation of "A1" is 42.
+* If the cell "A1" contains "=B1" and "B1" contains "42.5", the result of the evaluation of "A1" is "#Error".
+* If the cell "A1" contains "=B1" and "B1" contains "=A1", the result of the evaluation of "A1" is "#Circular".
 
