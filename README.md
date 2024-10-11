@@ -79,7 +79,7 @@ A formula can contain a reference to a cell, following Excel's convention (e.g.,
 * If the cell "A1" contains "=B1" and "B1" contains "=A1", the result of the evaluation of "A1" is "#Circular".
 
 ### User Story 5 -- Formulas with Arithmetic Operators
-The spreadsheet performs integer addition, subtraction, multiplication, division, and module operations when the corresponding operators (i.e., +, -, *, /, and %) are present in a formula. Note that complex formulas take into account the precedence among operators (e.g., multiplications are evaluated before additions). When an operation cannot be performed because (1) the operators are incorrect integer numbers or (2) there is a division by zero, the evaluation shall return the string "#Error".
+The spreadsheet performs integer addition, subtraction, multiplication, division, and module operations when the corresponding operators (i.e., +, -, *, /, and %) are present in a formula. Note that complex formulas take into account operator precedence (e.g., multiplications are evaluated before additions). When an operation cannot be performed because (1) the operators are incorrect integer numbers or (2) there is a division by zero, the evaluation returns the string "#Error".
 
 **Requirement:**
 * Implement `SpreadSheet.evaluate(self, cell: str) -> int | str` to evaluate the content of a cell containing a formula with arithmetic operators.
@@ -89,4 +89,3 @@ The spreadsheet performs integer addition, subtraction, multiplication, division
 * If the cell "A1" contains "=1+3.5", the result of its evaluation is "#Error".
 * If the cell "A1" contains "=1/0", the result of its evaluation is "#Error".
 * If the cell "A1" contains "=1+3*2", the result of its evaluation is 9.
-
