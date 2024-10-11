@@ -2,7 +2,7 @@ from unittest import TestCase
 from spreadsheet import SpreadSheet
 
 
-class TestSpreadsheet(TestCase):
+class TestSpreadSheet(TestCase):
 
     def test_something(self):
         pass
