@@ -36,4 +36,23 @@ See the provided source files to improve your understanding of the API before st
 ## User Stories
 Remember to read and implement the user stories once at a time (in the provided order). Therefore, do not read the next user story, if the current one is not implemented yet.
 
-### User Story 1 -- TBW
+### User Story 1 -- Integer Numbers
+The spreadsheet should handle correctly formatted integer numbers both signed and unsigned, so that when a cell containing an integer number is evaluated, the result of this evaluation is the number itself. When a number does not follow the integer format (e.g., it contains a decimal point, special symbols, characters, etc.), the result of this evaluation is the string "#Error".
+
+**Requirement:**
+* Implement `SpreadSheet.evaluate(self, cell: str) -> int | str` to evaluate the content of a cell containing an integer number.
+
+**Examples:**
+* If the cell "A1" contains "1", the result of its evaluation is 1.
+* If the cell "A1" contains "1.5", the result of its evaluation is "#Error".
+
+### User Story 2 -- Strings
+The spreadsheet should handle strings entered between single quotes. When a cell containing a string is evaluated, the result of this evaluation is the string itself without quotes. When a string does not have heading or trailing quotes, the result of this evaluation is the string "#Error".
+
+**Requirement:**
+* Implement `SpreadSheet.evaluate(self, cell: str) -> int | str` to evaluate the content of a cell containing a string.
+
+**Examples:**
+* If the cell "A1" contains "'Apple'", the result of its evaluation is "Apple".
+* If the cell "A1" contains "'Apple", the result of its evaluation is "#Error".
+
