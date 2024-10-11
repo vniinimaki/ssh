@@ -56,3 +56,16 @@ The spreadsheet should handle strings entered between single quotes. When a cell
 * If the cell "A1" contains "'Apple'", the result of its evaluation is "Apple".
 * If the cell "A1" contains "'Apple", the result of its evaluation is "#Error".
 
+### User Story 3 -- Simple Formulas
+The spreadsheet evaluates simple formulas (i.e., formulas without operators or cell references). A simple formula starts with the equal sign (=) followed by a string or integer number, and the evaluation of that cell returns the corresponding string or integer. When a cell contains an equal sign followed by a wrong string or integer number, the evaluation of that cell returns the string "#Error".
+
+**Requirement:**
+* Implement `SpreadSheet.evaluate(self, cell: str) -> int | str` to evaluate the content of a cell containing a simple formula.
+
+**Examples:**
+* If the cell "A1" contains "='Apple'", the result of its evaluation is "Apple".
+* If the cell "A1" contains "=1", the result of its evaluation is 1.
+* If the cell "A1" contains "='Apple", the result of its evaluation is "#Error".
+
+
+
