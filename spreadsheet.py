@@ -9,6 +9,10 @@ class SpreadSheet:
 
     def evaluate(self, cell: str):
         value = self._cells.get(cell, "")
+        if value.startswith("="):
+            if value[1:].startswith("'") and value[-1] == "'":
+                return value[2:-1]
+            return "#Error"
         if value.startswith("'") and value.endswith("'"):
             return value[1:-1]
         try:
