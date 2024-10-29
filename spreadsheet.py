@@ -26,6 +26,8 @@ class SpreadSheet:
                             result = "#Error"
                         else:
                             result = self.evaluate(referenced_cell)
+                            if result == "#Circular":
+                                return "#Circular"
                     else:
                         # Evaluate arithmetic expressions
                         expression = value[1:]
@@ -36,14 +38,20 @@ class SpreadSheet:
                                 if isinstance(ref_value, int):
                                     expression = expression.replace(ref, str(ref_value))
                                 else:
+                                    if ref_value == "#Circular":
+                                        result = "#Circular"
+                                        break
                                     result = "#Error"
                                     break
                         else:
-                            result = eval(expression, {'__builtins__': None}, {})
-                            if isinstance(result, float) and not result.is_integer():
+                            try:
+                                result = eval(expression, {'__builtins__': None}, {})
+                                if isinstance(result, float) and not result.is_integer():
+                                    result = "#Error"
+                                elif isinstance(result, float) and result.is_integer():
+                                    result = int(result)
+                            except:
                                 result = "#Error"
-                            elif isinstance(result, float) and result.is_integer():
-                                result = int(result)
                 except:
                     result = "#Error"
         elif value.startswith("'") and value.endswith("'"):

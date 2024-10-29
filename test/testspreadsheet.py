@@ -73,4 +73,10 @@ class TestSpreadSheet(TestCase):
         spreadsheet.set("A1","=1+B1")
         spreadsheet.set("B1", "3.1")
         self.assertEqual("#Error", spreadsheet.evaluate("A1"))
+    def test_circular_arithmetic_formula_and_reference(self):
+        #We want to program to return #Circular if the formula contains a reference to a cell that refers back to the current cell
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1","=1+B1")
+        spreadsheet.set("B1", "=A1")
+        self.assertEqual("#Circular", spreadsheet.evaluate("A1"))
 
