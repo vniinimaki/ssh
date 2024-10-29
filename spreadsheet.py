@@ -29,11 +29,21 @@ class SpreadSheet:
                     else:
                         # Evaluate arithmetic expressions
                         expression = value[1:]
-                        result = eval(expression, {'__builtins__': None}, {})
-                        if isinstance(result, float) and not result.is_integer():
-                            result = "#Error"
-                        elif isinstance(result, float) and result.is_integer():
-                            result = int(result)
+                        # Replace cell references in the expression
+                        for ref in self._cells:
+                            if ref in expression:
+                                ref_value = self.evaluate(ref)
+                                if isinstance(ref_value, int):
+                                    expression = expression.replace(ref, str(ref_value))
+                                else:
+                                    result = "#Error"
+                                    break
+                        else:
+                            result = eval(expression, {'__builtins__': None}, {})
+                            if isinstance(result, float) and not result.is_integer():
+                                result = "#Error"
+                            elif isinstance(result, float) and result.is_integer():
+                                result = int(result)
                 except:
                     result = "#Error"
         elif value.startswith("'") and value.endswith("'"):
