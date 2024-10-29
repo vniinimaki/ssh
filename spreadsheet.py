@@ -12,7 +12,10 @@ class SpreadSheet:
         if value.startswith("="):
             if value[1:].startswith("'") and value[-1] == "'":
                 return value[2:-1]
-            return "#Error"
+            try:
+                return int(value[1:])
+            except ValueError:
+                return "#Error"
         if value.startswith("'") and value.endswith("'"):
             return value[1:-1]
         try:
