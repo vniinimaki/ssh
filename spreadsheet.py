@@ -22,6 +22,8 @@ class SpreadSheet:
                         return referenced_value[1:-1]
                     elif referenced_value.startswith("="):
                         return self.evaluate(value[1:])
+                    elif '.' in referenced_value:
+                        return "#Error"
                     return referenced_value
                 return int(value[1:])
             except ValueError:
