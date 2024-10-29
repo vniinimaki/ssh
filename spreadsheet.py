@@ -14,7 +14,7 @@ class SpreadSheet:
         
         value = self._cells.get(cell, "")
         if value.startswith("="):
-            if value[1:].startswith("'") and value[-1] == "'":
+            if value[1:].startswith("'") and value[-1] == "'" and value.count("'") == 2:
                 result = value[2:-1]
             else:
                 try:
@@ -45,11 +45,16 @@ class SpreadSheet:
                                     break
                         else:
                             try:
-                                result = eval(expression, {'__builtins__': None}, {})
-                                if isinstance(result, float) and not result.is_integer():
-                                    result = "#Error"
-                                elif isinstance(result, float) and result.is_integer():
-                                    result = int(result)
+                                # Handle string concatenation
+                                if '&' in expression:
+                                    parts = expression.split('&')
+                                    result = ' '.join(eval(part.strip(), {'__builtins__': None}, {}) for part in parts)
+                                else:
+                                    result = eval(expression, {'__builtins__': None}, {})
+                                    if isinstance(result, float) and not result.is_integer():
+                                        result = "#Error"
+                                    elif isinstance(result, float) and result.is_integer():
+                                        result = int(result)
                             except:
                                 result = "#Error"
                 except:
