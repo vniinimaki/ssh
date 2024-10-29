@@ -83,4 +83,8 @@ class TestSpreadSheet(TestCase):
         spreadsheet = SpreadSheet()
         spreadsheet.set("A1","='Hello'&'World'")
         self.assertEqual("Hello World", spreadsheet.evaluate("A1"))
+    def test_formula_string_concatenation_invalid(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1","='Hello'&'World")
+        self.assertEqual("#Error", spreadsheet.evaluate("A1"))
 
