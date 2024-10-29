@@ -13,6 +13,16 @@ class SpreadSheet:
             if value[1:].startswith("'") and value[-1] == "'":
                 return value[2:-1]
             try:
+                # Check if it's a reference to another cell
+                if value[1].isalpha():
+                    referenced_value = self._cells.get(value[1:])
+                    if referenced_value.isdigit():
+                        return int(referenced_value)
+                    elif referenced_value.startswith("'") and referenced_value.endswith("'"):
+                        return referenced_value[1:-1]
+                    elif referenced_value.startswith("="):
+                        return self.evaluate(value[1:])
+                    return referenced_value
                 return int(value[1:])
             except ValueError:
                 return "#Error"
