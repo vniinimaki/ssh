@@ -22,10 +22,19 @@ class SpreadSheet:
                     if value[1].isalpha():
                         referenced_cell = value[1:]
                         referenced_value = self._cells.get(referenced_cell, "")
-                        result = self.evaluate(referenced_cell)
+                        if '.' in referenced_value:
+                            result = "#Error"
+                        else:
+                            result = self.evaluate(referenced_cell)
                     else:
-                        result = int(value[1:])
-                except ValueError:
+                        # Evaluate arithmetic expressions
+                        expression = value[1:]
+                        result = eval(expression, {'__builtins__': None}, {})
+                        if isinstance(result, float) and not result.is_integer():
+                            result = "#Error"
+                        elif isinstance(result, float) and result.is_integer():
+                            result = int(result)
+                except:
                     result = "#Error"
         elif value.startswith("'") and value.endswith("'"):
             result = value[1:-1]
@@ -33,7 +42,14 @@ class SpreadSheet:
             try:
                 result = int(value)
             except ValueError:
-                result = "#Error"
+                try:
+                    result = float(value)
+                    if result.is_integer():
+                        result = int(result)
+                    else:
+                        result = "#Error"
+                except ValueError:
+                    result = "#Error"
         
         self._evaluating.remove(cell)
         return result
